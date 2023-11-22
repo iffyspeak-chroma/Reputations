@@ -20,6 +20,10 @@ public class ReputationCommand extends Command {
 
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
+        if (!Globals.Database.useDatabase)
+        {
+
+        }
         // Check if we're dealing with a player or the console
         if (sender instanceof Player)
         {

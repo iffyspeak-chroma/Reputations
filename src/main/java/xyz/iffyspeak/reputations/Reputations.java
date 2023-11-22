@@ -66,8 +66,6 @@ public final class Reputations extends JavaPlugin {
             Bukkit.getLogger().severe(e.toString());
         }
 
-        //getServer().getCommandMap().reg
-
     }
 
     @Override

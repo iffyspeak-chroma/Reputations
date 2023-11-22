@@ -11,7 +11,7 @@ public class Toolkit {
         }
         public static String ParseViewRep(String name, int rp)
         {
-            return Globals.Language.ReputationMessages.ViewOwnReputation.replace("{REPUTATION}", Integer.toString(rp)).replace("{PLAYER}", name);
+            return Globals.Language.ReputationMessages.ViewOtherReputation.replace("{REPUTATION}", Integer.toString(rp)).replace("{PLAYER}", name);
         }
     }
     public static class ArmorMeta {
