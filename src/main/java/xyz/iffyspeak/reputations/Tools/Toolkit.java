@@ -1,6 +1,12 @@
 package xyz.iffyspeak.reputations.Tools;
 
 import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static org.bukkit.entity.EntityType.*;
 
 public class Toolkit {
 
@@ -72,6 +78,76 @@ public class Toolkit {
                     return Material.AIR;
                 }
             }
+        }
+
+        public static List<EntityType> NotFriendlyEntityTypes = Arrays.asList(BLAZE,CAVE_SPIDER,CREEPER,ELDER_GUARDIAN,ENDERMITE,
+                EVOKER,GHAST,GIANT,GUARDIAN,HOGLIN,HUSK,ILLUSIONER,PHANTOM,PIGLIN_BRUTE,PILLAGER,RAVAGER,SHULKER, SILVERFISH,
+                SKELETON,SLIME,SPIDER,STRAY,VEX,VINDICATOR,WARDEN,WITCH,ZOGLIN,ZOMBIE,ZOMBIE_VILLAGER,DROWNED,ENDER_DRAGON,
+                MAGMA_CUBE,WITHER,WITHER_SKELETON,BEE,ENDERMAN,IRON_GOLEM,LLAMA,PIGLIN,PUFFERFISH,SNOWMAN,TRADER_LLAMA,
+                ARMOR_STAND,AREA_EFFECT_CLOUD,ARROW,BLOCK_DISPLAY,CHEST_BOAT,COD,DRAGON_FIREBALL,DROPPED_ITEM,EGG,
+                ENDER_CRYSTAL,ENDER_PEARL,ENDER_SIGNAL,EXPERIENCE_ORB,FALLING_BLOCK,FIREBALL,FIREWORK,GLOW_ITEM_FRAME,
+                ITEM_DISPLAY,ITEM_FRAME,LEASH_HITCH,LIGHTNING,MINECART,MINECART_CHEST,MINECART_COMMAND,MINECART_FURNACE,
+                MINECART_HOPPER,MINECART_TNT,MINECART_MOB_SPAWNER,MARKER,PAINTING,SALMON,TADPOLE,TRIDENT,
+                TROPICAL_FISH,UNKNOWN);
+
+        public static boolean isEntityHostile(EntityType type)
+        {
+            switch (type)
+            {
+                case BLAZE,CAVE_SPIDER,CREEPER,ELDER_GUARDIAN,ENDERMITE,EVOKER,GHAST,GIANT,GUARDIAN,HOGLIN,HUSK,ILLUSIONER,
+                        PHANTOM,PIGLIN_BRUTE,PILLAGER,RAVAGER,SHULKER, SILVERFISH,SKELETON,SLIME,SPIDER,STRAY,VEX,VINDICATOR,
+                        WARDEN,WITCH,ZOGLIN,ZOMBIE,ZOMBIE_VILLAGER,DROWNED,ENDER_DRAGON,MAGMA_CUBE,WITHER,WITHER_SKELETON:
+                {
+                    return true;
+                }
+                default:
+                {
+                    return false;
+                }
+            }
+        }
+        public static boolean isEntityNeutral(EntityType type)
+        {
+            switch (type)
+            {
+                case BEE,ENDERMAN,IRON_GOLEM,LLAMA,PIGLIN,PUFFERFISH,SNOWMAN,TRADER_LLAMA:
+                {
+                    return true;
+                }
+                default:
+                {
+                    return false;
+                }
+            }
+        }
+        public static boolean isEntityUseless(EntityType type)
+        {
+            switch (type)
+            {
+                case ARMOR_STAND,AREA_EFFECT_CLOUD,ARROW,BLOCK_DISPLAY,CHEST_BOAT,COD,DRAGON_FIREBALL,DROPPED_ITEM,EGG,
+                        ENDER_CRYSTAL,ENDER_PEARL,ENDER_SIGNAL,EXPERIENCE_ORB,FALLING_BLOCK,FIREBALL,FIREWORK,GLOW_ITEM_FRAME,
+                        ITEM_DISPLAY,ITEM_FRAME,LEASH_HITCH,LIGHTNING,MINECART,MINECART_CHEST,MINECART_COMMAND,MINECART_FURNACE,
+                        MINECART_HOPPER,MINECART_TNT,MINECART_MOB_SPAWNER,MARKER,PAINTING,SALMON,TADPOLE,TRIDENT,
+                        TROPICAL_FISH,UNKNOWN:
+                {
+                    return true;
+                }
+                default:
+                {
+                    return false;
+                }
+            }
+        }
+        public static boolean isEntityFriendly(EntityType type)
+        {
+            for (EntityType t : NotFriendlyEntityTypes)
+            {
+                if (t.equals(type))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 
