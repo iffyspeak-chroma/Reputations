@@ -23,6 +23,7 @@ public class ReputationCommand extends Command {
         if (!Globals.Database.useDatabase)
         {
             sender.sendMessage(MiniMessage.miniMessage().deserialize(Globals.Language.ReputationMessages.NotUsingDatabase));
+            return true;
         }
         // Check if we're dealing with a player or the console
         if (sender instanceof Player)
