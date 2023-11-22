@@ -4,6 +4,16 @@ import org.bukkit.Material;
 
 public class Toolkit {
 
+    public static class StringToolkit {
+        public static String ParseViewRep(int rp)
+        {
+            return Globals.Language.ReputationMessages.ViewOwnReputation.replace("{REPUTATION}", Integer.toString(rp));
+        }
+        public static String ParseViewRep(String name, int rp)
+        {
+            return Globals.Language.ReputationMessages.ViewOwnReputation.replace("{REPUTATION}", Integer.toString(rp)).replace("{PLAYER}", name);
+        }
+    }
     public static class ArmorMeta {
         public static Material getArmorMaterial(Material armorPiece)
         {

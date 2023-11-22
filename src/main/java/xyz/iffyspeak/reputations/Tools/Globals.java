@@ -14,6 +14,13 @@ import xyz.iffyspeak.reputations.Tools.SQL.MySQL;
 
 public class Globals {
 
+    public static class Language {
+        public static class ReputationMessages {
+            public static String ViewOwnReputation = "<green>You currently have <b><yellow>{REPUTATION}</yellow></b> reputation points.</green>";
+            public static String ViewOtherReputation = "<green><b><yellow>{PLAYER}</yellow></b> currently has <b><yellow>{REPUTATION}</yellow></b> reputation points.</green>";
+            public static String ConsoleViewReputation = "<red>You silly billy! You don't get to have any reputation because it'd be both positive ∞ and negative ∞</red>";
+        }
+    }
     public static class Configuration {
         public static YamlDocument configuration;
 

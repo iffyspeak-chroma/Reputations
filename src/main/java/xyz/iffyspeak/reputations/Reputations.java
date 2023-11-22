@@ -7,6 +7,7 @@ import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings;
 import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import xyz.iffyspeak.reputations.Commands.ReputationCommand;
 import xyz.iffyspeak.reputations.Tools.Globals;
 import xyz.iffyspeak.reputations.Tools.SQL.MySQL;
 import xyz.iffyspeak.reputations.Tools.SQL.SQLToolkit;
@@ -20,6 +21,11 @@ public final class Reputations extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
+
+        getServer().getPluginManager().registerEvents(new Event(), this);
+        //                                      Label            Prefix
+        getServer().getCommandMap().register("reputation", "reputation", new ReputationCommand());
+
         try {
             Globals.Configuration.configuration = YamlDocument.create(new File(getDataFolder(), "configuration.yml"), Objects.requireNonNull(getResource("configuration.yml")),
                     GeneralSettings.DEFAULT,
@@ -59,6 +65,9 @@ public final class Reputations extends JavaPlugin {
         {
             Bukkit.getLogger().severe(e.toString());
         }
+
+        //getServer().getCommandMap().reg
+
     }
 
     @Override
