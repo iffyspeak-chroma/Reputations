@@ -224,6 +224,7 @@ public class EventManager implements Listener {
                         p.sendMessage(MiniMessage.miniMessage().deserialize(Globals.Language.ReputationMessages.VillagerHealNearby));
                     }
                 }
+                nearby.clear();
                 return;
             }
 
@@ -238,6 +239,7 @@ public class EventManager implements Listener {
                         p.sendMessage(MiniMessage.miniMessage().deserialize(Globals.Language.ReputationMessages.VillagerInfectNearby));
                     }
                 }
+                nearby.clear();
                 return;
             }
         }

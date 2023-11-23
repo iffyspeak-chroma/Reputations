@@ -150,8 +150,7 @@ public class Toolkit {
     }
 
     public static class ArmorMeta {
-        public static Material getArmorMaterial(Material armorPiece)
-        {
+        public static Material getArmorMaterial(Material armorPiece) {
             switch (armorPiece)
             {
                 // Leather
@@ -207,6 +206,19 @@ public class Toolkit {
                     return Material.AIR;
                 }
             }
+        }
+        public static class Costs {
+            public static float HELMET_COST = 0.209f;
+            public static float CHESTPLATE_COST = 0.333f;
+            public static float LEGGINGS_COST = 0.292f;
+            public static float BOOTS_COST = 0.166f;
+
+            public static float LEATHER_COST = 0.95f;
+            public static float GOLD_COST = 0.5f;
+            public static float CHAINMAIL_COST = 0.87f;
+            public static float IRON_COST = 0.80f;
+            public static float DIAMOND_COST = 0.78f;
+            public static float NETHERITE_COST = 0.40f;
         }
 
     }
