@@ -2,6 +2,8 @@ package xyz.iffyspeak.reputations.Tools;
 
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.List;
@@ -148,6 +150,19 @@ public class Toolkit {
                 }
             }
             return false;
+        }
+
+        public static Player getAttackingPlayer(LivingEntity victim) {
+            try {
+                if (victim != null && victim.getKiller().getType().equals(PLAYER))
+                {
+                    return victim.getKiller();
+                }
+            } catch (Exception ignore)
+            {
+                return null;
+            }
+            return null;
         }
     }
 

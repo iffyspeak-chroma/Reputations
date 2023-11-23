@@ -22,7 +22,7 @@ public final class Reputations extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
 
-        getServer().getPluginManager().registerEvents(new Event(), this);
+        getServer().getPluginManager().registerEvents(new EventManager(), this);
         //                                      Label            Prefix
         getServer().getCommandMap().register("reputation", "reputation", new ReputationCommand());
 
