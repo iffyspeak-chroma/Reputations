@@ -48,29 +48,74 @@ public class EventManager implements Listener {
                 atk_r = SQLToolkit.getPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString());
 
                 if (vic_r <= -1) {
-                    SQLToolkit.setPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString(), atk_r + 1);
+                    //SQLToolkit.setPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString(), atk_r + 1);
+                    Toolkit.ArmorMeta.addReputationPointToPlayer(attacker);
                 }
 
                 if (vic_r >= 0)
                 {
-                    SQLToolkit.setPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString(), atk_r - 1);
+                    //SQLToolkit.setPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString(), atk_r - 1);
+                    Toolkit.ArmorMeta.removeReputationPointFromPlayer(attacker);
                 }
             }
 
             if (_e.getEntityType().equals(EntityType.VILLAGER) && (attacker != null))
             {
                 // Player kill villager, remove reputation
-                int atk_r = SQLToolkit.getPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString());
-                SQLToolkit.setPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString(), atk_r - 1);
+
+                //int atk_r = SQLToolkit.getPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString());
+                //SQLToolkit.setPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString(), atk_r - 1);
+                Toolkit.ArmorMeta.removeReputationPointFromPlayer(attacker);
             }
 
             if (Toolkit.ArmorMeta.isEntityHostile(_e.getEntityType()) && (attacker != null))
             {
                 // Player kill hostile, do reputation check and roll for reputation changes (10% neutral, 10% positive, 5% negative)
+                int atk_r = SQLToolkit.getPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString());
+
+                if ((Toolkit.RNG.randomMinMax(0, 100) >= 90) && atk_r >= 0)
+                {
+                    // Neutral and positive accounted for
+
+                    //SQLToolkit.setPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString(), atk_r + 1);
+                    Toolkit.ArmorMeta.addReputationPointToPlayer(attacker);
+                }
+
+                if ((Toolkit.RNG.randomMinMax(0, 100) >= 95) && atk_r <= -1)
+                {
+                    // Negative accounted for
+
+                    //SQLToolkit.setPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString(), atk_r + 1);
+                    Toolkit.ArmorMeta.addReputationPointToPlayer(attacker);
+                }
+
+
             }
             if (Toolkit.ArmorMeta.isEntityNeutral(_e.getEntityType()) && (attacker != null))
             {
                 // Player kill neutral, do reputation check and roll for reputation changes (15% neutral, 20% positive, 10% negative)
+                int atk_r = SQLToolkit.getPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString());
+
+                if ((Toolkit.RNG.randomMinMax(0, 100) >= 85) && atk_r == 0) {
+                    // Case of neutral
+
+                    //SQLToolkit.setPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString(), atk_r + 1);
+                    Toolkit.ArmorMeta.addReputationPointToPlayer(attacker);
+                }
+
+                if ((Toolkit.RNG.randomMinMax(0, 100) >= 80) && atk_r > 0) {
+                    // Case of positive
+
+                    //SQLToolkit.setPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString(), atk_r + 1);
+                    Toolkit.ArmorMeta.addReputationPointToPlayer(attacker);
+                }
+
+                if ((Toolkit.RNG.randomMinMax(0, 100) >= 80) && atk_r < 0) {
+                    // Case of negative
+
+                    //SQLToolkit.setPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString(), atk_r + 1);
+                    Toolkit.ArmorMeta.addReputationPointToPlayer(attacker);
+                }
             }
             if (Toolkit.ArmorMeta.isEntityFriendly(_e.getEntityType()) && (attacker != null))
             {

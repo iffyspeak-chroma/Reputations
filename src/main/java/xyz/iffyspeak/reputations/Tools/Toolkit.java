@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import xyz.iffyspeak.reputations.Tools.SQL.SQLToolkit;
 
 import java.util.Arrays;
 import java.util.List;
@@ -152,7 +153,6 @@ public class Toolkit {
             }
             return false;
         }
-
         public static Player getAttackingPlayer(LivingEntity victim) {
             try {
                 if (victim != null && victim.getKiller().getType().equals(PLAYER))
@@ -165,6 +165,27 @@ public class Toolkit {
             }
             return null;
         }
+        public static void addReputationPointToPlayer(Player player)
+        {
+            int atk_r = SQLToolkit.getPlayerRep(Globals.Database.mySQL, player.getUniqueId().toString());
+            SQLToolkit.setPlayerRep(Globals.Database.mySQL, player.getUniqueId().toString(), atk_r + 1);
+        }
+        public static void addReputationPointToPlayer(Player player, int amount)
+        {
+            int atk_r = SQLToolkit.getPlayerRep(Globals.Database.mySQL, player.getUniqueId().toString());
+            SQLToolkit.setPlayerRep(Globals.Database.mySQL, player.getUniqueId().toString(), atk_r + amount);
+        }
+        public static void removeReputationPointFromPlayer(Player player)
+        {
+            int atk_r = SQLToolkit.getPlayerRep(Globals.Database.mySQL, player.getUniqueId().toString());
+            SQLToolkit.setPlayerRep(Globals.Database.mySQL, player.getUniqueId().toString(), atk_r - 1);
+        }
+        public static void removeReputationPointFromPlayer(Player player, int amount)
+        {
+            int atk_r = SQLToolkit.getPlayerRep(Globals.Database.mySQL, player.getUniqueId().toString());
+            SQLToolkit.setPlayerRep(Globals.Database.mySQL, player.getUniqueId().toString(), atk_r - amount);
+        }
+
     }
     public static class SQLChecks {
         public static boolean functioningSQL()
@@ -176,7 +197,7 @@ public class Toolkit {
         public static int randomMinMax(int min, int max)
         {
             Random rn = new Random();
-            return rn.nextInt(max - min + 1) + min;
+            return rn.nextInt((max - min) + 1) + min;
         }
     }
 
