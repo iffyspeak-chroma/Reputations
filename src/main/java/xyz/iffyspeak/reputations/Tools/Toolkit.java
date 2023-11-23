@@ -5,6 +5,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityTransformEvent;
 import xyz.iffyspeak.reputations.Tools.SQL.SQLToolkit;
 
 import java.util.Arrays;
@@ -25,66 +26,8 @@ public class Toolkit {
             return Globals.Language.ReputationMessages.ViewOtherReputation.replace("{REPUTATION}", Integer.toString(rp)).replace("{PLAYER}", name);
         }
     }
-    public static class ArmorMeta {
-        public static Material getArmorMaterial(Material armorPiece)
-        {
-            switch (armorPiece)
-            {
-                // Leather
-                case LEATHER_BOOTS:
-                case LEATHER_LEGGINGS:
-                case LEATHER_CHESTPLATE:
-                case LEATHER_HELMET: {
-                    return Material.LEATHER;
-                }
 
-                // Gold
-                case GOLDEN_BOOTS:
-                case GOLDEN_LEGGINGS:
-                case GOLDEN_CHESTPLATE:
-                case GOLDEN_HELMET: {
-                    return Material.GOLD_INGOT;
-                }
-
-                // Chainmail
-                case CHAINMAIL_BOOTS:
-                case CHAINMAIL_LEGGINGS:
-                case CHAINMAIL_CHESTPLATE:
-                case CHAINMAIL_HELMET: {
-                    return Material.CHAIN;
-                }
-
-                // Iron
-                case IRON_BOOTS:
-                case IRON_LEGGINGS:
-                case IRON_CHESTPLATE:
-                case IRON_HELMET: {
-                    return Material.IRON_INGOT;
-                }
-
-                // Diamond
-                case DIAMOND_BOOTS:
-                case DIAMOND_LEGGINGS:
-                case DIAMOND_CHESTPLATE:
-                case DIAMOND_HELMET: {
-                    return Material.DIAMOND;
-                }
-
-                // Netherite
-                case NETHERITE_BOOTS:
-                case NETHERITE_LEGGINGS:
-                case NETHERITE_CHESTPLATE:
-                case NETHERITE_HELMET: {
-                    return Material.NETHERITE_INGOT;
-                }
-
-                default:
-                {
-                    return Material.AIR;
-                }
-            }
-        }
-
+    public static class Reputation {
         public static List<EntityType> NotFriendlyEntityTypes = Arrays.asList(BLAZE,CAVE_SPIDER,CREEPER,ELDER_GUARDIAN,ENDERMITE,
                 EVOKER,GHAST,GIANT,GUARDIAN,HOGLIN,HUSK,ILLUSIONER,PHANTOM,PIGLIN_BRUTE,PILLAGER,RAVAGER,SHULKER, SILVERFISH,
                 SKELETON,SLIME,SPIDER,STRAY,VEX,VINDICATOR,WARDEN,WITCH,ZOGLIN,ZOMBIE,ZOMBIE_VILLAGER,DROWNED,ENDER_DRAGON,
@@ -190,6 +133,80 @@ public class Toolkit {
         public static boolean isEntityZombie(Entity ent)
         {
             return ent.getType().equals(EntityType.ZOMBIE) || ent.getType().equals(ZOMBIE_VILLAGER) || ent.getType().equals(ZOMBIE_HORSE);
+        }
+        public static boolean passesTransformCheck(EntityTransformEvent.TransformReason reason)
+        {
+            return reason == EntityTransformEvent.TransformReason.CURED || reason == EntityTransformEvent.TransformReason.INFECTION;
+        }
+        public static boolean isEntityRaider(Entity ent)
+        {
+            return ent.getType().equals(PILLAGER) || ent.getType().equals(VINDICATOR) || ent.getType().equals(RAVAGER) || ent.getType().equals(WITCH) || ent.getType().equals(EVOKER);
+        }
+
+        public static boolean entityHatesVillager(Entity ent)
+        {
+            return isEntityZombie(ent) || isEntityRaider(ent);
+        }
+    }
+
+    public static class ArmorMeta {
+        public static Material getArmorMaterial(Material armorPiece)
+        {
+            switch (armorPiece)
+            {
+                // Leather
+                case LEATHER_BOOTS:
+                case LEATHER_LEGGINGS:
+                case LEATHER_CHESTPLATE:
+                case LEATHER_HELMET: {
+                    return Material.LEATHER;
+                }
+
+                // Gold
+                case GOLDEN_BOOTS:
+                case GOLDEN_LEGGINGS:
+                case GOLDEN_CHESTPLATE:
+                case GOLDEN_HELMET: {
+                    return Material.GOLD_INGOT;
+                }
+
+                // Chainmail
+                case CHAINMAIL_BOOTS:
+                case CHAINMAIL_LEGGINGS:
+                case CHAINMAIL_CHESTPLATE:
+                case CHAINMAIL_HELMET: {
+                    return Material.CHAIN;
+                }
+
+                // Iron
+                case IRON_BOOTS:
+                case IRON_LEGGINGS:
+                case IRON_CHESTPLATE:
+                case IRON_HELMET: {
+                    return Material.IRON_INGOT;
+                }
+
+                // Diamond
+                case DIAMOND_BOOTS:
+                case DIAMOND_LEGGINGS:
+                case DIAMOND_CHESTPLATE:
+                case DIAMOND_HELMET: {
+                    return Material.DIAMOND;
+                }
+
+                // Netherite
+                case NETHERITE_BOOTS:
+                case NETHERITE_LEGGINGS:
+                case NETHERITE_CHESTPLATE:
+                case NETHERITE_HELMET: {
+                    return Material.NETHERITE_INGOT;
+                }
+
+                default:
+                {
+                    return Material.AIR;
+                }
+            }
         }
 
     }

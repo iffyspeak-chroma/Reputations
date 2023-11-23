@@ -20,6 +20,9 @@ public class Globals {
             public static String ViewOtherReputation = "<green><b><yellow>{PLAYER}</yellow></b> currently has <b><yellow>{REPUTATION}</yellow></b> reputation points.</green>";
             public static String ConsoleViewReputation = "<red>You silly billy! You don't get to have any reputation because it'd be both positive ∞ and negative ∞</red>";
             public static String NotUsingDatabase = "<red>Reputation saving is not active which means you have no reputation to read.</red>";
+            public static String VillagerDeathNearby = "<red>A villager died close to you causing you to lose a reputation point.</red>";
+            public static String VillagerHealNearby = "<green>A villager was cured nearby giving you a reputation point.</green>";
+            public static String VillagerInfectNearby = "<red>A villager was infected by a zombie nearby causing you to lose a reputation point.</red>";
         }
     }
     public static class Configuration {
