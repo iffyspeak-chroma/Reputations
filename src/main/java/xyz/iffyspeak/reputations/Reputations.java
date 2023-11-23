@@ -11,6 +11,7 @@ import xyz.iffyspeak.reputations.Commands.ReputationCommand;
 import xyz.iffyspeak.reputations.Tools.Globals;
 import xyz.iffyspeak.reputations.Tools.SQL.MySQL;
 import xyz.iffyspeak.reputations.Tools.SQL.SQLToolkit;
+import xyz.iffyspeak.reputations.Tools.Toolkit;
 
 import java.io.File;
 import java.util.Objects;
@@ -71,7 +72,7 @@ public final class Reputations extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        if (Globals.Database.mySQL != null)
+        if (Toolkit.SQLChecks.functioningSQL())
         {
             Globals.Database.mySQL.disconnect();
         }

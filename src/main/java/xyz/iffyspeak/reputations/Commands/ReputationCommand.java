@@ -20,7 +20,7 @@ public class ReputationCommand extends Command {
 
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
-        if (!Globals.Database.useDatabase)
+        if (!Toolkit.SQLChecks.functioningSQL())
         {
             sender.sendMessage(MiniMessage.miniMessage().deserialize(Globals.Language.ReputationMessages.NotUsingDatabase));
             return true;

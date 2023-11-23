@@ -165,5 +165,11 @@ public class Toolkit {
             return null;
         }
     }
+    public static class SQLChecks {
+        public static boolean functioningSQL()
+        {
+            return Globals.Database.useDatabase && (Globals.Database.mySQL != null);
+        }
+    }
 
 }

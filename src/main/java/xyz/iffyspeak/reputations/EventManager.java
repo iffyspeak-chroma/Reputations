@@ -19,7 +19,7 @@ public class EventManager implements Listener {
         // Check if it's their first time joining
         if (!_e.getPlayer().hasPlayedBefore())
         {
-            if (Globals.Database.useDatabase && (Globals.Database.mySQL != null))
+            if (Toolkit.SQLChecks.functioningSQL())
             {
                 SQLToolkit.addPlayer(Globals.Database.mySQL, _e.getPlayer().getUniqueId().toString(), _e.getPlayer().getName(), 0);
             }
@@ -36,6 +36,9 @@ public class EventManager implements Listener {
             if (_e.getEntityType().equals(EntityType.PLAYER) && (attacker != null))
             {
                 // Player kill player, do reputation checks
+
+                // Get victim and attacker's reputations
+                int vic_r,atk_r = 0;
             }
 
             if (_e.getEntityType().equals(EntityType.VILLAGER) && (attacker != null))
