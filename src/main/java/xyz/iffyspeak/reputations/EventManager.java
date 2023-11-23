@@ -207,7 +207,7 @@ public class EventManager implements Listener {
     {
         EntityTransformEvent.TransformReason reason = _e.getTransformReason();
         Entity transformer = _e.getTransformedEntity();
-        List<Entity> nearby = new ArrayList<>();
+        List<Entity> nearby;
 
         if (Toolkit.Reputation.passesTransformCheck(reason))
         {
