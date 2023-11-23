@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import static org.bukkit.entity.EntityType.*;
 
@@ -169,6 +170,13 @@ public class Toolkit {
         public static boolean functioningSQL()
         {
             return Globals.Database.useDatabase && (Globals.Database.mySQL != null);
+        }
+    }
+    public static class RNG {
+        public static int randomMinMax(int min, int max)
+        {
+            Random rn = new Random();
+            return rn.nextInt(max - min + 1) + min;
         }
     }
 

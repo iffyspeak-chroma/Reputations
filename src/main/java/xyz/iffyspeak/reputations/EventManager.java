@@ -60,6 +60,8 @@ public class EventManager implements Listener {
             if (_e.getEntityType().equals(EntityType.VILLAGER) && (attacker != null))
             {
                 // Player kill villager, remove reputation
+                int atk_r = SQLToolkit.getPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString());
+                SQLToolkit.setPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString(), atk_r - 1);
             }
 
             if (Toolkit.ArmorMeta.isEntityHostile(_e.getEntityType()) && (attacker != null))
