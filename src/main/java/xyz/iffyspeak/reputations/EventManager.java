@@ -32,13 +32,29 @@ public class EventManager implements Listener {
         LivingEntity victim = _e.getEntity();
         Player attacker = Toolkit.ArmorMeta.getAttackingPlayer(victim);
 
-        { /* THIS IS EVERYTHING TO DO WITH MODIFYING REPUTATION, NOTHING TO DO WITH XP AND INVENTORY MODIFICATION */
+        if (Toolkit.SQLChecks.functioningSQL())
+        { /*
+            THIS IS EVERYTHING TO DO WITH MODIFYING REPUTATION, NOTHING TO DO WITH XP AND INVENTORY MODIFICATION
+            WHICH IS ACTUALLY WHY IT REQUIRES SQL. IF THERE'S NO SQL, THERE'S NO REPUTATION
+            */
             if (_e.getEntityType().equals(EntityType.PLAYER) && (attacker != null))
             {
                 // Player kill player, do reputation checks
 
                 // Get victim and attacker's reputations
-                int vic_r,atk_r = 0;
+                int vic_r,atk_r;
+                //int atk_r_u = 0;
+                vic_r = SQLToolkit.getPlayerRep(Globals.Database.mySQL, victim.getUniqueId().toString());
+                atk_r = SQLToolkit.getPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString());
+
+                if (vic_r <= -1) {
+                    SQLToolkit.setPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString(), atk_r + 1);
+                }
+
+                if (vic_r >= 0)
+                {
+                    SQLToolkit.setPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString(), atk_r - 1);
+                }
             }
 
             if (_e.getEntityType().equals(EntityType.VILLAGER) && (attacker != null))

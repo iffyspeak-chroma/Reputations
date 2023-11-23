@@ -42,6 +42,13 @@ public class SQLToolkit {
 
     public static void setPlayerRep(MySQL sql, String uuid, int rep)
     {
+        if (rep >= 10)
+        {
+            rep = 10;
+        } else if (rep <= -10)
+        {
+            rep = -10;
+        }
         try {
             PreparedStatement ps = sql.getConnection().prepareStatement("UPDATE reputations SET REPUTATION=? WHERE UUID=?");
             ps.setInt(1, rep);
