@@ -1,6 +1,7 @@
 package xyz.iffyspeak.reputations.Tools;
 
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -153,7 +154,8 @@ public class Toolkit {
             }
             return false;
         }
-        public static Player getAttackingPlayer(LivingEntity victim) {
+        public static Player getAttackingPlayer(LivingEntity victim)
+        {
             try {
                 if (victim != null && victim.getKiller().getType().equals(PLAYER))
                 {
@@ -184,6 +186,10 @@ public class Toolkit {
         {
             int atk_r = SQLToolkit.getPlayerRep(Globals.Database.mySQL, player.getUniqueId().toString());
             SQLToolkit.setPlayerRep(Globals.Database.mySQL, player.getUniqueId().toString(), atk_r - amount);
+        }
+        public static boolean isEntityZombie(Entity ent)
+        {
+            return ent.getType().equals(EntityType.ZOMBIE) || ent.getType().equals(ZOMBIE_VILLAGER) || ent.getType().equals(ZOMBIE_HORSE);
         }
 
     }
