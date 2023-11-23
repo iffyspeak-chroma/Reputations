@@ -142,10 +142,53 @@ public class Toolkit {
         {
             return ent.getType().equals(PILLAGER) || ent.getType().equals(VINDICATOR) || ent.getType().equals(RAVAGER) || ent.getType().equals(WITCH) || ent.getType().equals(EVOKER);
         }
-
         public static boolean entityHatesVillager(Entity ent)
         {
             return isEntityZombie(ent) || isEntityRaider(ent);
+        }
+        public static SimpleNamedReputation getSimpleReputation(Player player)
+        {
+            int p_rep = SQLToolkit.getPlayerRep(Globals.Database.mySQL, player.getUniqueId().toString());
+
+            if (p_rep == 0)
+            {
+                return SimpleNamedReputation.Neutral;
+            }
+            if (p_rep > 0)
+            {
+                return SimpleNamedReputation.Positive;
+            }
+            if (p_rep < 0)
+            {
+                return SimpleNamedReputation.Negative;
+            }
+            return SimpleNamedReputation.Neutral;
+        }
+        public static ComplexNamedReputation getComplexReputation(Player player)
+        {
+            int p_rep = SQLToolkit.getPlayerRep(Globals.Database.mySQL, player.getUniqueId().toString());
+
+            if (p_rep == 0) // Neutral
+            {
+                return ComplexNamedReputation.Neutral;
+            }
+            if (p_rep >= 3 && p_rep < 8) // Friendly
+            {
+                return ComplexNamedReputation.Friendly;
+            }
+            if (p_rep >= 8) // Peacekeeper
+            {
+                return ComplexNamedReputation.Peacekeeper;
+            }
+            if (p_rep <= -3 && p_rep > -7) // Player Killer
+            {
+                return ComplexNamedReputation.Player_Killer;
+            }
+            if (p_rep <= -7)
+            {
+                return ComplexNamedReputation.Murderer;
+            }
+            return ComplexNamedReputation.Neutral;
         }
     }
 
