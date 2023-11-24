@@ -475,10 +475,24 @@ public class Toolkit {
                 }
             }
 
-            float totalSetCost = calculatePieceCost(EquipmentSlot.HEAD, helm.getType()) +
-                    calculatePieceCost(EquipmentSlot.CHEST, chest.getType()) +
-                    calculatePieceCost(EquipmentSlot.LEGS, legging.getType()) +
-                    calculatePieceCost(EquipmentSlot.FEET, boots.getType());
+            float totalSetCost = 0.0f;
+            if (helm != null)
+            {
+                totalSetCost += calculatePieceCost(EquipmentSlot.HEAD, helm.getType());
+            }
+            if (chest != null)
+            {
+                totalSetCost += calculatePieceCost(EquipmentSlot.CHEST, chest.getType());
+            }
+            if (legging != null)
+            {
+                totalSetCost += calculatePieceCost(EquipmentSlot.LEGS, legging.getType());
+            }
+            if (boots != null)
+            {
+                totalSetCost += calculatePieceCost(EquipmentSlot.FEET, boots.getType());
+            }
+
 
             // current speed * ((helmet cost + chest cost + legs cost + boots cost) * reputation debuff cost)
             // curSpeed * (totalSetCost * debuff)
