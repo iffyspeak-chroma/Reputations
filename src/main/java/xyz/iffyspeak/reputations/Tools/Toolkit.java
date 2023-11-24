@@ -629,12 +629,12 @@ public class Toolkit {
 
             if (reputation.equals(ComplexNamedReputation.Friendly))
             {
-                final_speed = additionVar * 0.5f;
+                final_speed *= 0.5f;
             }
 
             if (reputation.equals(ComplexNamedReputation.Player_Killer))
             {
-                final_speed = additionVar * 1.2f;
+                final_speed *= 1.2f;
             }
 
             Bukkit.getLogger().info("fs: " + final_speed);

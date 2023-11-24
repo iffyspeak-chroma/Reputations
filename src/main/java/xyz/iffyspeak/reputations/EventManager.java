@@ -1,6 +1,5 @@
 package xyz.iffyspeak.reputations;
 
-import com.codingforcookies.armorequip.ArmorEquipEvent;
 import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
