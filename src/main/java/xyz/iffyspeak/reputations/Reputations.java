@@ -5,10 +5,16 @@ import dev.dejvokep.boostedyaml.settings.dumper.DumperSettings;
 import dev.dejvokep.boostedyaml.settings.general.GeneralSettings;
 import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings;
 import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scoreboard.Team;
 import xyz.iffyspeak.reputations.Commands.ReputationCommand;
+import xyz.iffyspeak.reputations.Tools.ComplexNamedReputation;
 import xyz.iffyspeak.reputations.Tools.Globals;
+import xyz.iffyspeak.reputations.Tools.GlowEffect;
 import xyz.iffyspeak.reputations.Tools.SQL.MySQL;
 import xyz.iffyspeak.reputations.Tools.SQL.SQLToolkit;
 import xyz.iffyspeak.reputations.Tools.Toolkit;
@@ -67,6 +73,35 @@ public final class Reputations extends JavaPlugin {
             Bukkit.getLogger().severe(e.toString());
         }
 
+        GlowEffect.clearColorTeams();
+        GlowEffect.setupColorTeams();
+
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
+            for (Player p : Bukkit.getOnlinePlayers())
+            {
+                /* ALL OF THIS IS FOR CONTROLLING PLAYER GLOW */
+                if (Toolkit.Reputation.getComplexReputation(p).equals(ComplexNamedReputation.Murderer))
+                {
+                    // Set a red glow
+                    GlowEffect.setDarkGlow(p, NamedTextColor.RED);
+                }
+                if (Toolkit.Reputation.getComplexReputation(p).equals(ComplexNamedReputation.Peacekeeper))
+                {
+                    // Set a blue glow
+                    GlowEffect.setBrightGlow(p, NamedTextColor.BLUE);
+                }
+                if (!p.hasPotionEffect(PotionEffectType.GLOWING) && p.isGlowing())
+                {
+                    Team ateam = Bukkit.getScoreboardManager().getMainScoreboard().getTeam("GLOW_COLOR_RED");
+                    if (!(ateam != null && ateam.hasPlayer(p)))
+                    {
+                        // Remove player glow
+                        GlowEffect.removeGlow(p);
+                    }
+                }
+            }
+        }, 0, 20);
+
     }
 
     @Override
@@ -76,5 +111,6 @@ public final class Reputations extends JavaPlugin {
         {
             Globals.Database.mySQL.disconnect();
         }
+        GlowEffect.clearColorTeams();
     }
 }
