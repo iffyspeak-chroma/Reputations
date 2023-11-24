@@ -15,6 +15,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import xyz.iffyspeak.reputations.Tools.Globals;
 import xyz.iffyspeak.reputations.Tools.SQL.SQLToolkit;
+import xyz.iffyspeak.reputations.Tools.SimpleNamedReputation;
 import xyz.iffyspeak.reputations.Tools.Toolkit;
 
 import java.util.ArrayList;
@@ -50,18 +51,13 @@ public class EventManager implements Listener {
             {
                 // Player kill player, do reputation checks
 
-                // Get victim and attacker's reputations
-                int vic_r,atk_r;
-                //int atk_r_u = 0;
-                vic_r = SQLToolkit.getPlayerRep(Globals.Database.mySQL, victim.getUniqueId().toString());
-                atk_r = SQLToolkit.getPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString());
-
-                if (vic_r <= -1) {
+                if ((Toolkit.Reputation.getSimpleReputation((Player) victim).equals(SimpleNamedReputation.Negative))) {
                     //SQLToolkit.setPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString(), atk_r + 1);
                     Toolkit.Reputation.addReputationPointToPlayer(attacker);
                 }
 
-                if (vic_r >= 0)
+                if ((Toolkit.Reputation.getSimpleReputation((Player) victim).equals(SimpleNamedReputation.Neutral)
+                        || Toolkit.Reputation.getSimpleReputation((Player) victim).equals(SimpleNamedReputation.Positive)))
                 {
                     //SQLToolkit.setPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString(), atk_r - 1);
                     Toolkit.Reputation.removeReputationPointFromPlayer(attacker);
@@ -80,9 +76,10 @@ public class EventManager implements Listener {
             if (Toolkit.Reputation.isEntityHostile(_e.getEntityType()) && (attacker != null))
             {
                 // Player kill hostile, do reputation check and roll for reputation changes (10% neutral, 10% positive, 5% negative)
-                int atk_r = SQLToolkit.getPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString());
+                //int atk_r = SQLToolkit.getPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString());
 
-                if ((Toolkit.RNG.randomMinMax(0, 100) >= 90) && atk_r >= 0)
+                if ((Toolkit.RNG.randomMinMax(0, 100) >= 90) && (Toolkit.Reputation.getSimpleReputation(attacker).equals(SimpleNamedReputation.Neutral)
+                        || Toolkit.Reputation.getSimpleReputation(attacker).equals(SimpleNamedReputation.Positive)))
                 {
                     // Neutral and positive accounted for
 
@@ -90,7 +87,7 @@ public class EventManager implements Listener {
                     Toolkit.Reputation.addReputationPointToPlayer(attacker);
                 }
 
-                if ((Toolkit.RNG.randomMinMax(0, 100) >= 95) && atk_r <= -1)
+                if ((Toolkit.RNG.randomMinMax(0, 100) >= 95) && (Toolkit.Reputation.getSimpleReputation(attacker).equals(SimpleNamedReputation.Negative)))
                 {
                     // Negative accounted for
 
@@ -104,23 +101,23 @@ public class EventManager implements Listener {
             {
                 // Player kill neutral, do reputation check and roll for reputation changes (15% neutral, 20% positive, 10% negative)
 
-                int atk_r = SQLToolkit.getPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString());
+                //int atk_r = SQLToolkit.getPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString());
 
-                if ((Toolkit.RNG.randomMinMax(0, 100) >= 85) && atk_r == 0) {
+                if ((Toolkit.RNG.randomMinMax(0, 100) >= 85) && (Toolkit.Reputation.getSimpleReputation(attacker).equals(SimpleNamedReputation.Neutral))) {
                     // Case of neutral
 
                     //SQLToolkit.setPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString(), atk_r + 1);
                     Toolkit.Reputation.addReputationPointToPlayer(attacker);
                 }
 
-                if ((Toolkit.RNG.randomMinMax(0, 100) >= 80) && atk_r > 0) {
+                if ((Toolkit.RNG.randomMinMax(0, 100) >= 80) && (Toolkit.Reputation.getSimpleReputation(attacker).equals(SimpleNamedReputation.Positive))) {
                     // Case of positive
 
                     //SQLToolkit.setPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString(), atk_r + 1);
                     Toolkit.Reputation.addReputationPointToPlayer(attacker);
                 }
 
-                if ((Toolkit.RNG.randomMinMax(0, 100) >= 80) && atk_r < 0) {
+                if ((Toolkit.RNG.randomMinMax(0, 100) >= 80) && (Toolkit.Reputation.getSimpleReputation(attacker).equals(SimpleNamedReputation.Negative))) {
                     // Case of negative
 
                     //SQLToolkit.setPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString(), atk_r + 1);
@@ -131,23 +128,23 @@ public class EventManager implements Listener {
             {
                 // Player kill friendly, do reputation check and roll for reputation changes (10% neutral, 5% positive, 15% negative)
 
-                int atk_r = SQLToolkit.getPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString());
+                //int atk_r = SQLToolkit.getPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString());
 
-                if ((Toolkit.RNG.randomMinMax(0, 100) >= 90) && atk_r == 0) {
+                if ((Toolkit.RNG.randomMinMax(0, 100) >= 90) && (Toolkit.Reputation.getSimpleReputation(attacker).equals(SimpleNamedReputation.Neutral))) {
                     // Case of neutral
 
                     //SQLToolkit.setPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString(), atk_r + 1);
                     Toolkit.Reputation.removeReputationPointFromPlayer(attacker);
                 }
 
-                if ((Toolkit.RNG.randomMinMax(0, 100) >= 95) && atk_r > 0) {
+                if ((Toolkit.RNG.randomMinMax(0, 100) >= 95) && (Toolkit.Reputation.getSimpleReputation(attacker).equals(SimpleNamedReputation.Positive))) {
                     // Case of positive
 
                     //SQLToolkit.setPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString(), atk_r + 1);
                     Toolkit.Reputation.removeReputationPointFromPlayer(attacker);
                 }
 
-                if ((Toolkit.RNG.randomMinMax(0, 100) >= 85) && atk_r < 0) {
+                if ((Toolkit.RNG.randomMinMax(0, 100) >= 85) && (Toolkit.Reputation.getSimpleReputation(attacker).equals(SimpleNamedReputation.Negative))) {
                     // Case of negative
 
                     //SQLToolkit.setPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString(), atk_r + 1);
