@@ -1,5 +1,6 @@
 package xyz.iffyspeak.reputations;
 
+import com.codingforcookies.armorequip.ArmorEquipEvent;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -299,10 +300,24 @@ public class EventManager implements Listener {
         }
     }
 
+    /*
     @EventHandler
     public void onInventoryClick(InventoryClickEvent _e)
     {
         Player player = (Player) _e.getWhoClicked();
+
+        // First, let's reset the player's speed back to the default 0.2f
+        player.setWalkSpeed(0.2f);
+
+        // NOW, we can calculate their new walk speed
+        player.setWalkSpeed(Toolkit.ArmorMeta.calculateEndSpeed(player));
+    }
+     */
+
+    @EventHandler
+    public void onEquipArmor(ArmorEquipEvent _e)
+    {
+        Player player = _e.getPlayer();
 
         // First, let's reset the player's speed back to the default 0.2f
         player.setWalkSpeed(0.2f);

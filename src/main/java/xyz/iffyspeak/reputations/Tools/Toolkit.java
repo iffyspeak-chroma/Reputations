@@ -496,20 +496,24 @@ public class Toolkit {
 
             // current speed * ((helmet cost + chest cost + legs cost + boots cost) * reputation debuff cost)
             // curSpeed * (totalSetCost * debuff)
-            // curSpeed * adjustedSpeed
+            // curSpeed * reputationSpeedMultiplier
 
-            float adjustedSpeed = 1f;
+            float reputationSpeedMultiplier = 1f;
 
             if (Toolkit.Reputation.getComplexReputation(player).equals(ComplexNamedReputation.Friendly))
             {
-                adjustedSpeed = totalSetCost * Costs.FRIENDLY_MULTIPLIER;
+                reputationSpeedMultiplier = totalSetCost * Costs.FRIENDLY_MULTIPLIER;
             }
             if (Toolkit.Reputation.getComplexReputation(player).equals(ComplexNamedReputation.Player_Killer))
             {
-                adjustedSpeed = totalSetCost * Costs.PLAYER_KILLER_MULTIPLIER;
+                reputationSpeedMultiplier = totalSetCost * Costs.PLAYER_KILLER_MULTIPLIER;
             }
 
-            return curSpeed * adjustedSpeed;
+            float newSpeed = reputationSpeedMultiplier * totalSetCost;
+
+            Bukkit.getLogger().info("cS: " + curSpeed + ", tSC: " + totalSetCost + ", rSM: " + reputationSpeedMultiplier + ", rSM tSC calc: " + newSpeed + ", calculated: " + (curSpeed * reputationSpeedMultiplier * totalSetCost));
+
+            return curSpeed * newSpeed;
         }
 
     }

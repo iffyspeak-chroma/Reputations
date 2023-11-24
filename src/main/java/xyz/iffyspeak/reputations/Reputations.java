@@ -1,5 +1,7 @@
 package xyz.iffyspeak.reputations;
 
+import com.codingforcookies.armorequip.ArmorListener;
+import com.codingforcookies.armorequip.DispenserArmorListener;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.settings.dumper.DumperSettings;
 import dev.dejvokep.boostedyaml.settings.general.GeneralSettings;
@@ -20,6 +22,7 @@ import xyz.iffyspeak.reputations.Tools.SQL.SQLToolkit;
 import xyz.iffyspeak.reputations.Tools.Toolkit;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Objects;
 
 @SuppressWarnings("unused")
@@ -32,6 +35,13 @@ public final class Reputations extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EventManager(), this);
         //                                      Label            Prefix
         getServer().getCommandMap().register("reputation", "reputation", new ReputationCommand());
+
+        getServer().getPluginManager().registerEvents(new ArmorListener(null), this);
+        try{
+            //Better way to check for this? Only in 1.13.1+?
+            Class.forName("org.bukkit.event.block.BlockDispenseArmorEvent");
+            getServer().getPluginManager().registerEvents(new DispenserArmorListener(), this);
+        }catch(Exception ignored){}
 
         try {
             Globals.Configuration.configuration = YamlDocument.create(new File(getDataFolder(), "configuration.yml"), Objects.requireNonNull(getResource("configuration.yml")),
@@ -73,8 +83,10 @@ public final class Reputations extends JavaPlugin {
             Bukkit.getLogger().severe(e.toString());
         }
 
+
         //GlowEffect.clearColorTeams();
         GlowEffect.setupColorTeams();
+
 
         getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
             for (Player p : Bukkit.getOnlinePlayers())
