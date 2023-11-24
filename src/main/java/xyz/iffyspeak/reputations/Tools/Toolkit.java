@@ -430,23 +430,47 @@ public class Toolkit {
                 return curSpeed;
             }
 
-            ItemStack helm = player.getEquipment().getHelmet();
-            ItemStack chest = player.getEquipment().getChestplate();
-            ItemStack legging = player.getEquipment().getLeggings();
-            ItemStack boots = player.getEquipment().getBoots();
+            ItemStack helm = null;
+            ItemStack chest = null;
+            ItemStack legging = null;
+            ItemStack boots = null;
+
+            if (player.getEquipment().getHelmet() != null)
+            {
+                helm = player.getEquipment().getHelmet();
+            }
+
+            if (player.getEquipment().getChestplate() != null)
+            {
+                chest = player.getEquipment().getChestplate();
+            }
+
+            if (player.getEquipment().getLeggings() != null)
+            {
+                legging = player.getEquipment().getLeggings();
+            }
+
+            if (player.getEquipment().getBoots() != null)
+            {
+                boots = player.getEquipment().getBoots();
+            }
 
             /* GOLDEN MATERIAL SHENANIGANS */
             {
-                if (helm.getType().equals(Material.GOLDEN_HELMET) || chest.getType().equals(Material.GOLDEN_CHESTPLATE) ||
-                        legging.getType().equals(Material.GOLDEN_LEGGINGS) || boots.getType().equals(Material.GOLDEN_BOOTS)) {
+                if (helm != null && helm.getType().equals(Material.GOLDEN_HELMET) ||
+                        chest != null && chest.getType().equals(Material.GOLDEN_CHESTPLATE) ||
+                        legging != null && legging.getType().equals(Material.GOLDEN_LEGGINGS) ||
+                        boots != null && boots.getType().equals(Material.GOLDEN_BOOTS)) {
                     return curSpeed * 0.5f;
                 }
             }
 
             /* NETHER RIDDEN MATERIAL SHENANIGANS */
             {
-                if (helm.getType().equals(Material.NETHERITE_HELMET) || chest.getType().equals(Material.NETHERITE_CHESTPLATE) ||
-                        legging.getType().equals(Material.NETHERITE_LEGGINGS) || boots.getType().equals(Material.NETHERITE_BOOTS)) {
+                if (helm != null && helm.getType().equals(Material.NETHERITE_HELMET) ||
+                        chest != null && chest.getType().equals(Material.NETHERITE_CHESTPLATE) ||
+                        legging != null && legging.getType().equals(Material.NETHERITE_LEGGINGS) ||
+                        boots != null && boots.getType().equals(Material.NETHERITE_BOOTS)) {
                     return curSpeed * 0.4f;
                 }
             }
