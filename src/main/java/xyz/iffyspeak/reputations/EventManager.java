@@ -43,7 +43,8 @@ public class EventManager implements Listener {
         Player attacker = Toolkit.Reputation.getAttackingPlayer(victim);
 
         if (Toolkit.SQLChecks.functioningSQL())
-        { /*
+        {
+            /*
             THIS IS EVERYTHING TO DO WITH MODIFYING REPUTATION, NOTHING TO DO WITH XP AND INVENTORY MODIFICATION
             WHICH IS ACTUALLY WHY IT REQUIRES SQL. IF THERE'S NO SQL, THERE'S NO REPUTATION
             */
