@@ -2,7 +2,7 @@ name: Reputations
 version: '${project.version}'
 main: xyz.iffyspeak.reputations.Reputations
 api-version: '1.20'
-load: STARTUP
+load: POSTWORLD
 authors: [iffyspeak, hmmAlyssiaa]
 description: Manages Reputations and the Armor Meta
 website: forums.iffyspeak.xyz

@@ -73,7 +73,7 @@ public final class Reputations extends JavaPlugin {
             Bukkit.getLogger().severe(e.toString());
         }
 
-        GlowEffect.clearColorTeams();
+        //GlowEffect.clearColorTeams();
         GlowEffect.setupColorTeams();
 
         getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
@@ -101,6 +101,7 @@ public final class Reputations extends JavaPlugin {
                 }
 
                 /* ALL OF THIS IS FOR CONTROLLING PLAYER SPEED */
+                p.setWalkSpeed(Toolkit.ArmorMeta.calculateEndSpeed(p));
             }
         }, 0, 20);
 
