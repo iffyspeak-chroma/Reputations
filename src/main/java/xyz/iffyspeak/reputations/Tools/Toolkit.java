@@ -356,6 +356,37 @@ public class Toolkit {
             };
         }
 
+        public static boolean isSlotNull(EquipmentSlot piece, Player p)
+        {
+            switch (piece)
+            {
+                case HEAD:
+                {
+                    if (p.getEquipment().getHelmet() == null) return true;
+                    return false;
+                }
+                case CHEST:
+                {
+                    if (p.getEquipment().getChestplate() == null) return true;
+                    return false;
+                }
+                case LEGS:
+                {
+                    if (p.getEquipment().getLeggings() == null) return true;
+                    return false;
+                }
+                case FEET:
+                {
+                    if (p.getEquipment().getBoots() == null) return true;
+                    return false;
+                }
+                default:
+                {
+                    return true;
+                }
+            }
+        }
+
         public static float calculateEndSpeed(Player player, float default_speed)
         {
             ComplexNamedReputation reputation = Toolkit.Reputation.getComplexReputation(player);
@@ -363,6 +394,22 @@ public class Toolkit {
             if (!Toolkit.ArmorMeta.shouldMovementBeAffected(reputation))
             {
                 return default_speed;
+            }
+
+            if (!isSlotNull(EquipmentSlot.HEAD, player) && player.getEquipment().getHelmet().getType().equals(Material.NETHERITE_HELMET) ||
+                !isSlotNull(EquipmentSlot.CHEST, player) && player.getEquipment().getChestplate().getType().equals(Material.NETHERITE_CHESTPLATE) ||
+                !isSlotNull(EquipmentSlot.LEGS, player) && player.getEquipment().getLeggings().getType().equals(Material.NETHERITE_LEGGINGS) ||
+                !isSlotNull(EquipmentSlot.FEET, player) && player.getEquipment().getBoots().getType().equals(Material.NETHERITE_BOOTS))
+            {
+                return default_speed * 0.4f;
+            }
+
+            if (!isSlotNull(EquipmentSlot.HEAD, player) && player.getEquipment().getHelmet().getType().equals(Material.GOLDEN_HELMET) ||
+                !isSlotNull(EquipmentSlot.CHEST, player) && player.getEquipment().getChestplate().getType().equals(Material.GOLDEN_CHESTPLATE) ||
+                !isSlotNull(EquipmentSlot.LEGS, player) && player.getEquipment().getLeggings().getType().equals(Material.GOLDEN_LEGGINGS) ||
+                !isSlotNull(EquipmentSlot.FEET, player) && player.getEquipment().getBoots().getType().equals(Material.GOLDEN_BOOTS))
+            {
+                return default_speed * 0.4f;
             }
 
             float helmetCost = 1f;
@@ -574,10 +621,11 @@ public class Toolkit {
             //float multiVar = helmetCost * chestCost * pantsCost * bootsCost;
             //Bukkit.getLogger().info("add: " + additionVar);
 
-
             // 0.2 default
             float final_speed = additionVar;
 
+            //final_speed = additionVar * default_speed;
+            final_speed = (additionVar == 0 ? default_speed : default_speed * additionVar);
 
             if (reputation.equals(ComplexNamedReputation.Friendly))
             {
@@ -589,8 +637,7 @@ public class Toolkit {
                 final_speed = additionVar * 1.2f;
             }
 
-            //final_speed = additionVar * default_speed;
-            final_speed = (additionVar == 0 ? default_speed : default_speed * additionVar);
+            Bukkit.getLogger().info("fs: " + final_speed);
             return final_speed;
         }
     }
