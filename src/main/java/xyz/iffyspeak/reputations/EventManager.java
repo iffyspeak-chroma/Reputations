@@ -2,6 +2,7 @@ package xyz.iffyspeak.reputations;
 
 import com.codingforcookies.armorequip.ArmorEquipEvent;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -314,6 +315,7 @@ public class EventManager implements Listener {
     }
      */
 
+    /*
     @EventHandler
     public void onEquipArmor(ArmorEquipEvent _e)
     {
@@ -325,5 +327,8 @@ public class EventManager implements Listener {
         // NOW, we can calculate their new walk speed
         //player.setWalkSpeed(Toolkit.ArmorMeta.calculateEndSpeed(player));
 
+        float test = Toolkit.ArmorMeta.calculateEndSpeed(player, 0.2f);
+        //Bukkit.getLogger().info(String.valueOf(test));
     }
+     */
 }

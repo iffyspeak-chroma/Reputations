@@ -356,70 +356,6 @@ public class Toolkit {
             };
         }
 
-        public static float calculatePieceCost(EquipmentSlot type, Material materialIn)
-        {
-            float cost = 1f;
-            Material material = getArmorMaterial(materialIn);
-
-            switch (type)
-            {
-                case HEAD: {
-                    cost = cost * Costs.HELMET_COST;
-                    break;
-                }
-
-                case CHEST: {
-                    cost = cost * Costs.CHESTPLATE_COST;
-                    break;
-                }
-
-                case LEGS: {
-                    cost = cost * Costs.LEGGINGS_COST;
-                    break;
-                }
-
-                case FEET: {
-                    cost = cost * Costs.BOOTS_COST;
-                    break;
-                }
-            }
-
-            switch (material)
-            {
-                default:
-                case AIR: {
-                    cost = 0;
-                    return cost;
-                }
-
-                case NETHERITE_INGOT: {
-                    cost = cost * Costs.NETHERITE_COST;
-                }
-
-                case DIAMOND: {
-                    cost = cost * Costs.DIAMOND_COST;
-                }
-
-                case IRON_INGOT: {
-                    cost = cost * Costs.IRON_COST;
-                }
-
-                case CHAIN: {
-                    cost = cost * Costs.CHAINMAIL_COST;
-                }
-
-                case GOLD_INGOT: {
-                    cost = cost * Costs.GOLD_COST;
-                }
-
-                case LEATHER: {
-                    cost = cost * Costs.LEATHER_COST;
-                }
-            }
-
-            return cost;
-        }
-
         /* REWRITE NEEDED
         public static float calculateEndSpeed(Player player)
             {
@@ -514,6 +450,227 @@ public class Toolkit {
 
                 return curSpeed * newSpeed;
             } */
+
+        public static float calculateEndSpeed(Player player, float default_speed)
+        {
+            ComplexNamedReputation reputation = Toolkit.Reputation.getComplexReputation(player);
+
+            if (!Toolkit.ArmorMeta.shouldMovementBeAffected(reputation))
+            {
+                return default_speed;
+            }
+
+            float helmetCost = 1f;
+            float chestCost = 1f;
+            float pantsCost = 1f;
+            float bootsCost = 1f;
+            ItemStack helm;
+            ItemStack chest;
+            ItemStack pants;
+            ItemStack boots;
+            if (player.getEquipment().getHelmet() != null)
+            {
+                helm = player.getEquipment().getHelmet();
+                Material a_mat = Toolkit.ArmorMeta.getArmorMaterial(helm);
+
+                switch (a_mat)
+                {
+                    // LEATHER GOLD_INGOT CHAIN IRON_INGOT DIAMOND NETHERITE_INGOT AIR
+                    default:
+                    case AIR:
+                    {
+                        break;
+                    }
+                    case LEATHER:
+                    {
+                        helmetCost = helmetCost * Costs.LEATHER_COST * Costs.HELMET_COST;
+                        break;
+                    }
+                    case GOLD_INGOT:
+                    {
+                        helmetCost = helmetCost * Costs.GOLD_COST * Costs.HELMET_COST;
+                        break;
+                    }
+                    case CHAIN:
+                    {
+                        helmetCost = helmetCost * Costs.CHAINMAIL_COST * Costs.HELMET_COST;
+                        break;
+                    }
+                    case IRON_INGOT:
+                    {
+                        helmetCost = helmetCost * Costs.IRON_COST * Costs.HELMET_COST;
+                        break;
+                    }
+                    case DIAMOND:
+                    {
+                        helmetCost = helmetCost * Costs.DIAMOND_COST * Costs.HELMET_COST;
+                        break;
+                    }
+                    case NETHERITE_INGOT:
+                    {
+                        helmetCost = helmetCost * Costs.NETHERITE_COST * Costs.HELMET_COST;
+                        break;
+                    }
+                }
+            } else
+            {
+                helmetCost = 0f;
+            }
+
+            if (player.getEquipment().getChestplate() != null)
+            {
+                chest = player.getEquipment().getChestplate();
+                Material a_mat = Toolkit.ArmorMeta.getArmorMaterial(chest);
+
+                switch (a_mat)
+                {
+                    // LEATHER GOLD_INGOT CHAIN IRON_INGOT DIAMOND NETHERITE_INGOT AIR
+                    default:
+                    case AIR:
+                    {
+                        break;
+                    }
+                    case LEATHER:
+                    {
+                        chestCost = chestCost * Costs.LEATHER_COST * Costs.CHESTPLATE_COST;
+                        break;
+                    }
+                    case GOLD_INGOT:
+                    {
+                        chestCost = chestCost * Costs.GOLD_COST * Costs.CHESTPLATE_COST;
+                        break;
+                    }
+                    case CHAIN:
+                    {
+                        chestCost = chestCost * Costs.CHAINMAIL_COST * Costs.CHESTPLATE_COST;
+                        break;
+                    }
+                    case IRON_INGOT:
+                    {
+                        chestCost = chestCost * Costs.IRON_COST * Costs.CHESTPLATE_COST;
+                        break;
+                    }
+                    case DIAMOND:
+                    {
+                        chestCost = chestCost * Costs.DIAMOND_COST * Costs.CHESTPLATE_COST;
+                        break;
+                    }
+                    case NETHERITE_INGOT:
+                    {
+                        chestCost = chestCost * Costs.NETHERITE_COST * Costs.CHESTPLATE_COST;
+                        break;
+                    }
+                }
+            } else
+            {
+                chestCost = 0f;
+            }
+
+            if (player.getEquipment().getLeggings() != null)
+            {
+                pants = player.getEquipment().getLeggings();
+                Material a_mat = Toolkit.ArmorMeta.getArmorMaterial(pants);
+
+                switch (a_mat)
+                {
+                    // LEATHER GOLD_INGOT CHAIN IRON_INGOT DIAMOND NETHERITE_INGOT AIR
+                    default:
+                    case AIR:
+                    {
+                        break;
+                    }
+                    case LEATHER:
+                    {
+                        pantsCost = pantsCost * Costs.LEATHER_COST * Costs.LEGGINGS_COST;
+                        break;
+                    }
+                    case GOLD_INGOT:
+                    {
+                        pantsCost = pantsCost * Costs.GOLD_COST * Costs.LEGGINGS_COST;
+                        break;
+                    }
+                    case CHAIN:
+                    {
+                        pantsCost = pantsCost * Costs.CHAINMAIL_COST * Costs.LEGGINGS_COST;
+                        break;
+                    }
+                    case IRON_INGOT:
+                    {
+                        pantsCost = pantsCost * Costs.IRON_COST * Costs.LEGGINGS_COST;
+                        break;
+                    }
+                    case DIAMOND:
+                    {
+                        pantsCost = pantsCost * Costs.DIAMOND_COST * Costs.LEGGINGS_COST;
+                        break;
+                    }
+                    case NETHERITE_INGOT:
+                    {
+                        pantsCost = pantsCost * Costs.NETHERITE_COST * Costs.LEGGINGS_COST;
+                        break;
+                    }
+                }
+            } else
+            {
+                pantsCost = 0f;
+            }
+
+            if (player.getEquipment().getBoots() != null)
+            {
+                boots = player.getEquipment().getBoots();
+                Material a_mat = Toolkit.ArmorMeta.getArmorMaterial(boots);
+
+                switch (a_mat)
+                {
+                    // LEATHER GOLD_INGOT CHAIN IRON_INGOT DIAMOND NETHERITE_INGOT AIR
+                    default:
+                    case AIR:
+                    {
+                        break;
+                    }
+                    case LEATHER:
+                    {
+                        bootsCost = bootsCost * Costs.LEATHER_COST * Costs.BOOTS_COST;
+                        break;
+                    }
+                    case GOLD_INGOT:
+                    {
+                        bootsCost = bootsCost * Costs.GOLD_COST * Costs.BOOTS_COST;
+                        break;
+                    }
+                    case CHAIN:
+                    {
+                        bootsCost = bootsCost * Costs.CHAINMAIL_COST * Costs.BOOTS_COST;
+                        break;
+                    }
+                    case IRON_INGOT:
+                    {
+                        bootsCost = bootsCost * Costs.IRON_COST * Costs.BOOTS_COST;
+                        break;
+                    }
+                    case DIAMOND:
+                    {
+                        bootsCost = bootsCost * Costs.DIAMOND_COST * Costs.BOOTS_COST;
+                        break;
+                    }
+                    case NETHERITE_INGOT:
+                    {
+                        bootsCost = bootsCost * Costs.NETHERITE_COST * Costs.BOOTS_COST;
+                        break;
+                    }
+                }
+            } else
+            {
+                bootsCost = 0f;
+            }
+
+            Bukkit.getLogger().info("hC: " + helmetCost + ", cC: " + chestCost + ", pC: " + pantsCost + ", bC: " + bootsCost);
+            float additionVar = helmetCost + chestCost + pantsCost + bootsCost;
+            //float multiVar = helmetCost * chestCost * pantsCost * bootsCost;
+            Bukkit.getLogger().info("add: " + additionVar);
+
+            return default_speed * additionVar;
+        }
     }
 
 
