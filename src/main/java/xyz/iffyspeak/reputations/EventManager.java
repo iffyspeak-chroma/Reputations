@@ -189,7 +189,37 @@ public class EventManager implements Listener {
                 }
             } /* Murderer and Peacekeeper checks */
 
+            if (Toolkit.Reputation.isEntityHostile(_e.getEntityType()))
+            {
+                if (attacker != null)
+                {
+                    ComplexNamedReputation attacker_r = Toolkit.Reputation.getComplexReputation(attacker);
 
+                    switch (attacker_r)
+                    {
+                        case Neutral:
+                        {
+                            break;
+                        }
+                        case Friendly:
+                        {
+                            _e.setDroppedExp((int) Math.ceil(_e.getDroppedExp() * 1.2f));
+                        }
+                        case Peacekeeper:
+                        {
+                            _e.setDroppedExp((int) Math.ceil(_e.getDroppedExp() * 1.2f));
+                        }
+                        case Player_Killer:
+                        {
+                            break;
+                        }
+                        case Murderer:
+                        {
+                            _e.setDroppedExp((int) Math.ceil(_e.getDroppedExp() * 1.1f));
+                        }
+                    }
+                }
+            }
         }
     }
 
