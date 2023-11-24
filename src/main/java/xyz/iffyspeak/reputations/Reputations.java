@@ -99,6 +99,8 @@ public final class Reputations extends JavaPlugin {
                         GlowEffect.removeGlow(p);
                     }
                 }
+
+                /* ALL OF THIS IS FOR CONTROLLING PLAYER SPEED */
             }
         }, 0, 20);
 

@@ -1,11 +1,14 @@
 package xyz.iffyspeak.reputations.Tools;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityTransformEvent;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 import xyz.iffyspeak.reputations.Tools.SQL.SQLToolkit;
 
 import java.util.Arrays;
@@ -193,14 +196,17 @@ public class Toolkit {
     }
 
     public static class ArmorMeta {
-        public static Material getArmorMaterial(Material armorPiece) {
+        public static Material getArmorMaterial(ItemStack armor) {
+            Material armorPiece = armor.getType();
+
             switch (armorPiece)
             {
                 // Leather
                 case LEATHER_BOOTS:
                 case LEATHER_LEGGINGS:
                 case LEATHER_CHESTPLATE:
-                case LEATHER_HELMET: {
+                case LEATHER_HELMET:
+                case LEATHER: {
                     return Material.LEATHER;
                 }
 
@@ -208,7 +214,8 @@ public class Toolkit {
                 case GOLDEN_BOOTS:
                 case GOLDEN_LEGGINGS:
                 case GOLDEN_CHESTPLATE:
-                case GOLDEN_HELMET: {
+                case GOLDEN_HELMET:
+                case GOLD_INGOT: {
                     return Material.GOLD_INGOT;
                 }
 
@@ -216,7 +223,8 @@ public class Toolkit {
                 case CHAINMAIL_BOOTS:
                 case CHAINMAIL_LEGGINGS:
                 case CHAINMAIL_CHESTPLATE:
-                case CHAINMAIL_HELMET: {
+                case CHAINMAIL_HELMET:
+                case CHAIN: {
                     return Material.CHAIN;
                 }
 
@@ -224,7 +232,8 @@ public class Toolkit {
                 case IRON_BOOTS:
                 case IRON_LEGGINGS:
                 case IRON_CHESTPLATE:
-                case IRON_HELMET: {
+                case IRON_HELMET:
+                case IRON_INGOT: {
                     return Material.IRON_INGOT;
                 }
 
@@ -232,7 +241,8 @@ public class Toolkit {
                 case DIAMOND_BOOTS:
                 case DIAMOND_LEGGINGS:
                 case DIAMOND_CHESTPLATE:
-                case DIAMOND_HELMET: {
+                case DIAMOND_HELMET:
+                case DIAMOND: {
                     return Material.DIAMOND;
                 }
 
@@ -240,7 +250,74 @@ public class Toolkit {
                 case NETHERITE_BOOTS:
                 case NETHERITE_LEGGINGS:
                 case NETHERITE_CHESTPLATE:
-                case NETHERITE_HELMET: {
+                case NETHERITE_HELMET:
+                case NETHERITE_INGOT: {
+                    return Material.NETHERITE_INGOT;
+                }
+
+                default:
+                {
+                    return Material.AIR;
+                }
+            }
+        }
+
+        public static Material getArmorMaterial(Material armorPiece) {
+
+
+            switch (armorPiece)
+            {
+                // Leather
+                case LEATHER_BOOTS:
+                case LEATHER_LEGGINGS:
+                case LEATHER_CHESTPLATE:
+                case LEATHER_HELMET:
+                case LEATHER: {
+                    return Material.LEATHER;
+                }
+
+                // Gold
+                case GOLDEN_BOOTS:
+                case GOLDEN_LEGGINGS:
+                case GOLDEN_CHESTPLATE:
+                case GOLDEN_HELMET:
+                case GOLD_INGOT: {
+                    return Material.GOLD_INGOT;
+                }
+
+                // Chainmail
+                case CHAINMAIL_BOOTS:
+                case CHAINMAIL_LEGGINGS:
+                case CHAINMAIL_CHESTPLATE:
+                case CHAINMAIL_HELMET:
+                case CHAIN: {
+                    return Material.CHAIN;
+                }
+
+                // Iron
+                case IRON_BOOTS:
+                case IRON_LEGGINGS:
+                case IRON_CHESTPLATE:
+                case IRON_HELMET:
+                case IRON_INGOT: {
+                    return Material.IRON_INGOT;
+                }
+
+                // Diamond
+                case DIAMOND_BOOTS:
+                case DIAMOND_LEGGINGS:
+                case DIAMOND_CHESTPLATE:
+                case DIAMOND_HELMET:
+                case DIAMOND: {
+                    return Material.DIAMOND;
+                }
+
+                // Netherite
+                case NETHERITE_BOOTS:
+                case NETHERITE_LEGGINGS:
+                case NETHERITE_CHESTPLATE:
+                case NETHERITE_HELMET:
+                case NETHERITE_INGOT: {
                     return Material.NETHERITE_INGOT;
                 }
 
@@ -262,10 +339,139 @@ public class Toolkit {
             public static float IRON_COST = 0.80f;
             public static float DIAMOND_COST = 0.78f;
             public static float NETHERITE_COST = 0.40f;
+
+            public static float FRIENDLY_MULTIPLIER = 0.5f;
+            public static float PLAYER_KILLER_MULTIPLIER = 1.2f;
         }
         public static boolean shouldMovementBeAffected(Player p)
         {
             return !Reputation.getComplexReputation(p).equals(ComplexNamedReputation.Peacekeeper) && !Reputation.getComplexReputation(p).equals(ComplexNamedReputation.Murderer);
+        }
+
+        public static boolean shouldMovementBeAffected(ComplexNamedReputation reputation)
+        {
+            return switch (reputation) {
+                case Peacekeeper, Murderer -> false;
+                default -> true;
+            };
+        }
+
+        public static float calculatePieceCost(EquipmentSlot type, Material materialIn)
+        {
+            float cost = 1f;
+            Material material = getArmorMaterial(materialIn);
+
+            switch (type)
+            {
+                case HEAD: {
+                    cost = cost * Costs.HELMET_COST;
+                    break;
+                }
+
+                case CHEST: {
+                    cost = cost * Costs.CHESTPLATE_COST;
+                    break;
+                }
+
+                case LEGS: {
+                    cost = cost * Costs.LEGGINGS_COST;
+                    break;
+                }
+
+                case FEET: {
+                    cost = cost * Costs.BOOTS_COST;
+                    break;
+                }
+            }
+
+            switch (material)
+            {
+                default:
+                case AIR: {
+                    cost = 0;
+                    return cost;
+                }
+
+                case NETHERITE_INGOT: {
+                    cost = cost * Costs.NETHERITE_COST;
+                }
+
+                case DIAMOND: {
+                    cost = cost * Costs.DIAMOND_COST;
+                }
+
+                case IRON_INGOT: {
+                    cost = cost * Costs.IRON_COST;
+                }
+
+                case CHAIN: {
+                    cost = cost * Costs.CHAINMAIL_COST;
+                }
+
+                case GOLD_INGOT: {
+                    cost = cost * Costs.GOLD_COST;
+                }
+
+                case LEATHER: {
+                    cost = cost * Costs.LEATHER_COST;
+                }
+            }
+
+            return cost;
+        }
+
+        public static float calculateEndSpeed(Player player)
+        {
+            float curSpeed = player.getWalkSpeed();
+            ComplexNamedReputation reputation = Toolkit.Reputation.getComplexReputation(player);
+
+            if (!shouldMovementBeAffected(reputation))
+            {
+                return curSpeed;
+            }
+
+            ItemStack helm = player.getEquipment().getHelmet();
+            ItemStack chest = player.getEquipment().getChestplate();
+            ItemStack legging = player.getEquipment().getLeggings();
+            ItemStack boots = player.getEquipment().getBoots();
+
+            /* GOLDEN MATERIAL SHENANIGANS */
+            {
+                if (helm.getType().equals(Material.GOLDEN_HELMET) || chest.getType().equals(Material.GOLDEN_CHESTPLATE) ||
+                        legging.getType().equals(Material.GOLDEN_LEGGINGS) || boots.getType().equals(Material.GOLDEN_BOOTS)) {
+                    return curSpeed * 0.5f;
+                }
+            }
+
+            /* NETHER RIDDEN MATERIAL SHENANIGANS */
+            {
+                if (helm.getType().equals(Material.NETHERITE_HELMET) || chest.getType().equals(Material.NETHERITE_CHESTPLATE) ||
+                        legging.getType().equals(Material.NETHERITE_LEGGINGS) || boots.getType().equals(Material.NETHERITE_BOOTS)) {
+                    return curSpeed * 0.4f;
+                }
+            }
+
+            float totalSetCost = calculatePieceCost(EquipmentSlot.HEAD, helm.getType()) +
+                    calculatePieceCost(EquipmentSlot.CHEST, chest.getType()) +
+                    calculatePieceCost(EquipmentSlot.LEGS, legging.getType()) +
+                    calculatePieceCost(EquipmentSlot.FEET, boots.getType());
+
+            // current speed * ((helmet cost + chest cost + legs cost + boots cost) * reputation debuff cost)
+            // curSpeed * (totalSetCost * debuff)
+            // curSpeed * adjustedSpeed
+
+            float adjustedSpeed = 1f;
+
+            if (Toolkit.Reputation.getComplexReputation(player).equals(ComplexNamedReputation.Friendly))
+            {
+                adjustedSpeed = totalSetCost * Costs.FRIENDLY_MULTIPLIER;
+            }
+            if (Toolkit.Reputation.getComplexReputation(player).equals(ComplexNamedReputation.Player_Killer))
+            {
+                adjustedSpeed = totalSetCost * Costs.PLAYER_KILLER_MULTIPLIER;
+            }
+
+            return curSpeed * adjustedSpeed;
         }
 
     }
