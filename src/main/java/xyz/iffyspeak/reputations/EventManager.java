@@ -1,6 +1,7 @@
 package xyz.iffyspeak.reputations;
 
 import com.codingforcookies.armorequip.ArmorEquipEvent;
+import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -31,9 +32,9 @@ public class EventManager implements Listener {
     public void onPlayerJoin(PlayerJoinEvent _e)
     {
         // Check if it's their first time joining
-        if (!_e.getPlayer().hasPlayedBefore())
+        if (Toolkit.SQLChecks.functioningSQL())
         {
-            if (Toolkit.SQLChecks.functioningSQL())
+            if (SQLToolkit.uuidExists(Globals.Database.mySQL, _e.getPlayer().getUniqueId().toString()))
             {
                 SQLToolkit.addPlayer(Globals.Database.mySQL, _e.getPlayer().getUniqueId().toString(), _e.getPlayer().getName(), 0);
             }
@@ -301,34 +302,10 @@ public class EventManager implements Listener {
         }
     }
 
-    /*
     @EventHandler
-    public void onInventoryClick(InventoryClickEvent _e)
-    {
-        Player player = (Player) _e.getWhoClicked();
-
-        // First, let's reset the player's speed back to the default 0.2f
-        player.setWalkSpeed(0.2f);
-
-        // NOW, we can calculate their new walk speed
-        player.setWalkSpeed(Toolkit.ArmorMeta.calculateEndSpeed(player));
-    }
-     */
-
-    /*
-    @EventHandler
-    public void onEquipArmor(ArmorEquipEvent _e)
+    public void onArmorChangeEvent(PlayerArmorChangeEvent _e)
     {
         Player player = _e.getPlayer();
-
-        // First, let's reset the player's speed back to the default 0.2f
-        player.setWalkSpeed(0.2f);
-
-        // NOW, we can calculate their new walk speed
-        //player.setWalkSpeed(Toolkit.ArmorMeta.calculateEndSpeed(player));
-
-        float test = Toolkit.ArmorMeta.calculateEndSpeed(player, 0.2f);
-        //Bukkit.getLogger().info(String.valueOf(test));
+        player.setWalkSpeed(Toolkit.ArmorMeta.calculateEndSpeed(player, 0.2f));
     }
-     */
 }

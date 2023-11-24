@@ -356,101 +356,6 @@ public class Toolkit {
             };
         }
 
-        /* REWRITE NEEDED
-        public static float calculateEndSpeed(Player player)
-            {
-                float curSpeed = player.getWalkSpeed();
-                ComplexNamedReputation reputation = Toolkit.Reputation.getComplexReputation(player);
-
-                if (!shouldMovementBeAffected(reputation))
-                {
-                    return curSpeed;
-                }
-
-                ItemStack helm = null;
-                ItemStack chest = null;
-                ItemStack legging = null;
-                ItemStack boots = null;
-
-                if (player.getEquipment().getHelmet() != null)
-                {
-                    helm = player.getEquipment().getHelmet();
-                }
-
-                if (player.getEquipment().getChestplate() != null)
-                {
-                    chest = player.getEquipment().getChestplate();
-                }
-
-                if (player.getEquipment().getLeggings() != null)
-                {
-                    legging = player.getEquipment().getLeggings();
-                }
-
-                if (player.getEquipment().getBoots() != null)
-                {
-                    boots = player.getEquipment().getBoots();
-                }
-
-                {
-                    if (helm != null && helm.getType().equals(Material.GOLDEN_HELMET) ||
-                            chest != null && chest.getType().equals(Material.GOLDEN_CHESTPLATE) ||
-                            legging != null && legging.getType().equals(Material.GOLDEN_LEGGINGS) ||
-                            boots != null && boots.getType().equals(Material.GOLDEN_BOOTS)) {
-                        return curSpeed * 0.5f;
-                    }
-                }
-
-                {
-                    if (helm != null && helm.getType().equals(Material.NETHERITE_HELMET) ||
-                            chest != null && chest.getType().equals(Material.NETHERITE_CHESTPLATE) ||
-                            legging != null && legging.getType().equals(Material.NETHERITE_LEGGINGS) ||
-                            boots != null && boots.getType().equals(Material.NETHERITE_BOOTS)) {
-                        return curSpeed * 0.4f;
-                    }
-                }
-
-                float totalSetCost = 0.0f;
-                if (helm != null)
-                {
-                    totalSetCost += calculatePieceCost(EquipmentSlot.HEAD, helm.getType());
-                }
-                if (chest != null)
-                {
-                    totalSetCost += calculatePieceCost(EquipmentSlot.CHEST, chest.getType());
-                }
-                if (legging != null)
-                {
-                    totalSetCost += calculatePieceCost(EquipmentSlot.LEGS, legging.getType());
-                }
-                if (boots != null)
-                {
-                    totalSetCost += calculatePieceCost(EquipmentSlot.FEET, boots.getType());
-                }
-
-
-                // current speed * ((helmet cost + chest cost + legs cost + boots cost) * reputation debuff cost)
-                // curSpeed * (totalSetCost * debuff)
-                // curSpeed * reputationSpeedMultiplier
-
-                float reputationSpeedMultiplier = 1f;
-
-                if (Toolkit.Reputation.getComplexReputation(player).equals(ComplexNamedReputation.Friendly))
-                {
-                    reputationSpeedMultiplier = totalSetCost * Costs.FRIENDLY_MULTIPLIER;
-                }
-                if (Toolkit.Reputation.getComplexReputation(player).equals(ComplexNamedReputation.Player_Killer))
-                {
-                    reputationSpeedMultiplier = totalSetCost * Costs.PLAYER_KILLER_MULTIPLIER;
-                }
-
-                float newSpeed = reputationSpeedMultiplier * totalSetCost;
-
-                Bukkit.getLogger().info("cS: " + curSpeed + ", tSC: " + totalSetCost + ", rSM: " + reputationSpeedMultiplier + ", rSM tSC calc: " + newSpeed + ", calculated: " + (curSpeed * reputationSpeedMultiplier * totalSetCost));
-
-                return curSpeed * newSpeed;
-            } */
-
         public static float calculateEndSpeed(Player player, float default_speed)
         {
             ComplexNamedReputation reputation = Toolkit.Reputation.getComplexReputation(player);
@@ -664,17 +569,31 @@ public class Toolkit {
                 bootsCost = 0f;
             }
 
-            Bukkit.getLogger().info("hC: " + helmetCost + ", cC: " + chestCost + ", pC: " + pantsCost + ", bC: " + bootsCost);
             float additionVar = helmetCost + chestCost + pantsCost + bootsCost;
+            Bukkit.getLogger().info("hC: " + helmetCost + ", cC: " + chestCost + ", pC: " + pantsCost + ", bC: " + bootsCost);
             //float multiVar = helmetCost * chestCost * pantsCost * bootsCost;
-            Bukkit.getLogger().info("add: " + additionVar);
+            //Bukkit.getLogger().info("add: " + additionVar);
 
-            return default_speed * additionVar;
+
+            // 0.2 default
+            float final_speed = additionVar;
+
+
+            if (reputation.equals(ComplexNamedReputation.Friendly))
+            {
+                final_speed = additionVar * 0.5f;
+            }
+
+            if (reputation.equals(ComplexNamedReputation.Player_Killer))
+            {
+                final_speed = additionVar * 1.2f;
+            }
+
+            //final_speed = additionVar * default_speed;
+            final_speed = (additionVar == 0 ? default_speed : default_speed * additionVar);
+            return final_speed;
         }
     }
-
-
-
 
     public static class SQLChecks {
         public static boolean functioningSQL()
