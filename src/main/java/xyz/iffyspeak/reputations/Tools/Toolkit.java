@@ -168,7 +168,7 @@ public class Toolkit {
         {
             int p_rep = SQLToolkit.getPlayerRep(Globals.Database.mySQL, player.getUniqueId().toString());
 
-            if (p_rep == 0) // Neutral
+            if (p_rep > -3 && p_rep < 3) // Neutral
             {
                 return ComplexNamedReputation.Neutral;
             }
@@ -180,55 +180,11 @@ public class Toolkit {
             {
                 return ComplexNamedReputation.Peacekeeper;
             }
-            if (p_rep <= -3 && p_rep > -7) // Player Killer
+            if (p_rep > -7 && p_rep <= -3) // Player Killer
             {
                 return ComplexNamedReputation.Player_Killer;
             }
             if (p_rep <= -7)
-            {
-                return ComplexNamedReputation.Murderer;
-            }
-            return ComplexNamedReputation.Neutral;
-        }
-
-        public static SimpleNamedReputation TestSimpleReputation(int rep)
-        {
-
-            if (rep == 0)
-            {
-                return SimpleNamedReputation.Neutral;
-            }
-            if (rep > 0)
-            {
-                return SimpleNamedReputation.Positive;
-            }
-            if (rep < 0)
-            {
-                return SimpleNamedReputation.Negative;
-            }
-            return SimpleNamedReputation.Neutral;
-        }
-
-        public static ComplexNamedReputation TestComplexReputation(int rep)
-        {
-
-            if (rep == 0) // Neutral
-            {
-                return ComplexNamedReputation.Neutral;
-            }
-            if (rep >= 3 && rep < 8) // Friendly
-            {
-                return ComplexNamedReputation.Friendly;
-            }
-            if (rep >= 8) // Peacekeeper
-            {
-                return ComplexNamedReputation.Peacekeeper;
-            }
-            if (rep <= -3 && rep > -7) // Player Killer
-            {
-                return ComplexNamedReputation.Player_Killer;
-            }
-            if (rep <= -7)
             {
                 return ComplexNamedReputation.Murderer;
             }
