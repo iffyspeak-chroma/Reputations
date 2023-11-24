@@ -101,7 +101,7 @@ public final class Reputations extends JavaPlugin {
                 }
 
                 /* ALL OF THIS IS FOR CONTROLLING PLAYER SPEED */
-                p.setWalkSpeed(Toolkit.ArmorMeta.calculateEndSpeed(p));
+                //p.setWalkSpeed(Toolkit.ArmorMeta.calculateEndSpeed(p));
             }
         }, 0, 20);
 

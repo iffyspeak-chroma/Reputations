@@ -11,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTransformEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import xyz.iffyspeak.reputations.Tools.ComplexNamedReputation;
@@ -296,5 +297,17 @@ public class EventManager implements Listener {
                 return;
             }
         }
+    }
+
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent _e)
+    {
+        Player player = (Player) _e.getWhoClicked();
+
+        // First, let's reset the player's speed back to the default 0.2f
+        player.setWalkSpeed(0.2f);
+
+        // NOW, we can calculate their new walk speed
+        player.setWalkSpeed(Toolkit.ArmorMeta.calculateEndSpeed(player));
     }
 }
