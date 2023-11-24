@@ -190,6 +190,50 @@ public class Toolkit {
             }
             return ComplexNamedReputation.Neutral;
         }
+
+        public static SimpleNamedReputation TestSimpleReputation(int rep)
+        {
+
+            if (rep == 0)
+            {
+                return SimpleNamedReputation.Neutral;
+            }
+            if (rep > 0)
+            {
+                return SimpleNamedReputation.Positive;
+            }
+            if (rep < 0)
+            {
+                return SimpleNamedReputation.Negative;
+            }
+            return SimpleNamedReputation.Neutral;
+        }
+
+        public static ComplexNamedReputation TestComplexReputation(int rep)
+        {
+
+            if (rep == 0) // Neutral
+            {
+                return ComplexNamedReputation.Neutral;
+            }
+            if (rep >= 3 && rep < 8) // Friendly
+            {
+                return ComplexNamedReputation.Friendly;
+            }
+            if (rep >= 8) // Peacekeeper
+            {
+                return ComplexNamedReputation.Peacekeeper;
+            }
+            if (rep <= -3 && rep > -7) // Player Killer
+            {
+                return ComplexNamedReputation.Player_Killer;
+            }
+            if (rep <= -7)
+            {
+                return ComplexNamedReputation.Murderer;
+            }
+            return ComplexNamedReputation.Neutral;
+        }
     }
 
     public static class ArmorMeta {
@@ -262,6 +306,10 @@ public class Toolkit {
             public static float IRON_COST = 0.80f;
             public static float DIAMOND_COST = 0.78f;
             public static float NETHERITE_COST = 0.40f;
+        }
+        public static boolean shouldMovementBeAffected(Player p)
+        {
+            return !Reputation.getComplexReputation(p).equals(ComplexNamedReputation.Peacekeeper) && !Reputation.getComplexReputation(p).equals(ComplexNamedReputation.Murderer);
         }
 
     }

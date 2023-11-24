@@ -13,6 +13,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTransformEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
+import xyz.iffyspeak.reputations.Tools.ComplexNamedReputation;
 import xyz.iffyspeak.reputations.Tools.Globals;
 import xyz.iffyspeak.reputations.Tools.SQL.SQLToolkit;
 import xyz.iffyspeak.reputations.Tools.SimpleNamedReputation;
@@ -73,7 +74,6 @@ public class EventManager implements Listener {
                 //SQLToolkit.setPlayerRep(Globals.Database.mySQL, attacker.getUniqueId().toString(), atk_r - 1);
                 Toolkit.Reputation.removeReputationPointFromPlayer(attacker);
             }
-
             if (Toolkit.Reputation.isEntityHostile(_e.getEntityType()) && (attacker != null))
             {
                 // Player kill hostile, do reputation check and roll for reputation changes (10% neutral, 10% positive, 5% negative)
@@ -163,6 +163,31 @@ public class EventManager implements Listener {
                     victim.getWorld().dropItemNaturally(victim.getLocation(), new ItemStack(Material.ECHO_SHARD, 1));
                 }
             } /* Echo shard stuff */
+
+
+            if (victim.getType().equals(EntityType.PLAYER) && attacker != null)
+            {
+                // First lets check if a murderer killed someone with negative reputation
+                if (Toolkit.Reputation.getComplexReputation(attacker).equals(ComplexNamedReputation.Murderer)
+                        && Toolkit.Reputation.getSimpleReputation((Player) victim).equals(SimpleNamedReputation.Negative))
+                {
+                    _e.setDroppedExp((int) Math.floor(_e.getDroppedExp() * 0.2f));
+                }
+
+                // Let's now check if it's against someone with positive reputation
+                if (Toolkit.Reputation.getComplexReputation(attacker).equals(ComplexNamedReputation.Murderer)
+                        && Toolkit.Reputation.getSimpleReputation((Player) victim).equals(SimpleNamedReputation.Positive))
+                {
+                    _e.setDroppedExp((int) Math.ceil(_e.getDroppedExp() * 1.3f));
+                }
+
+                // Check if peacekeeper killed someone with negative reputation
+                if (Toolkit.Reputation.getComplexReputation(attacker).equals(ComplexNamedReputation.Peacekeeper)
+                        && Toolkit.Reputation.getSimpleReputation((Player) victim).equals(SimpleNamedReputation.Negative))
+                {
+                    _e.setDroppedExp((int) Math.ceil(_e.getDroppedExp() * 1.3f));
+                }
+            } /* Murderer and Peacekeeper checks */
 
 
         }
