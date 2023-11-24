@@ -324,5 +324,6 @@ public class EventManager implements Listener {
 
         // NOW, we can calculate their new walk speed
         player.setWalkSpeed(Toolkit.ArmorMeta.calculateEndSpeed(player));
+
     }
 }
